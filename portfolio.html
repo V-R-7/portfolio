@@ -461,7 +461,7 @@
         <nav class="nav-container">
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="#home" class="nav-link active">About</a>
+                    <a href="#home" class="nav-link active">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="#experience" class="nav-link">Experience</a>
@@ -807,86 +807,95 @@
         </div>
     </main>
 
-    <script>
-        // Navigation functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link');
+    <!-- Replace the entire script section at the bottom of your file with this updated version -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to scroll to section accounting for fixed header
+        function scrollToSection(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
             
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all links
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                });
-            });
+            const header = document.querySelector('.header');
+            const headerOffset = header.offsetHeight;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            // Add hover effects to featured cards
-            const featuredCards = document.querySelectorAll('.featured-card');
-            featuredCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px)';
-                });
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+
+        // Navigation link handling
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-            });
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
 
-            // Add click effects to course items
-            const courseItems = document.querySelectorAll('.course-item');
-            courseItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Add a subtle click effect
-                    this.style.transform = 'scale(0.98)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                });
+                // Get the target section id from href
+                const sectionId = this.getAttribute('href').substring(1);
+                scrollToSection(sectionId);
             });
+        });
 
-            // Settings icon functionality
-            const settingsIcon = document.querySelector('.settings-icon');
-            if (settingsIcon) {
-                settingsIcon.addEventListener('click', function() {
-                    // Toggle a simple rotation animation
-                    this.style.transform = this.style.transform === 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
+        // Featured cards hover effect
+        const featuredCards = document.querySelectorAll('.featured-card');
+        featuredCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+        });
+
+        // Course items click effect
+        const courseItems = document.querySelectorAll('.course-item');
+        courseItems.forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Settings icon functionality
+        const settingsIcon = document.querySelector('.settings-icon');
+        if (settingsIcon) {
+            settingsIcon.addEventListener('click', function() {
+                this.style.transform = this.style.transform === 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        }
+    });
+
+    // Handle other anchor links (non-navigation)
+    document.querySelectorAll('a[href^="#"]:not(.nav-link)').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                const header = document.querySelector('.header');
+                const headerOffset = header.offsetHeight;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
                 });
             }
         });
-        // link redirection 
-         document.addEventListener('DOMContentLoaded', function() {
-         const navLinks = document.querySelectorAll('.nav-link');
-    
-         navLinks.forEach(link => {
-         link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Remove active class from all links
-            navLinks.forEach(l => l.classList.remove('active'));
-            
-            // Add active class to clicked link
-            this.classList.add('active');
-           });
-           });
-           });
+    });
+</script>
 
-        // Smooth scroll behavior for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
